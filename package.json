@@ -1,12 +1,24 @@
 {
   "name": "zendesk-api-client-typescript",
-  "version": "0.1.0",
-  "description": "Type-safe Zendesk API client for TypeScript",
+  "version": "1.0.0",
+  "description": "Type-safe Zendesk API client for TypeScript with automatic rate limiting",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "module": "dist/index.js",
   "files": [
-    "dist/**/*"
+    "dist/**/*",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-username/zendesk-api-client-typescript.git"
+  },
+  "homepage": "https://github.com/your-username/zendesk-api-client-typescript#readme",
+  "bugs": {
+    "url": "https://github.com/your-username/zendesk-api-client-typescript/issues"
+  },
   "scripts": {
     "build": "tsc",
     "build:watch": "tsc --watch",
@@ -17,17 +29,26 @@
     "lint": "eslint src/**/*.ts",
     "lint:fix": "eslint src/**/*.ts --fix",
     "format": "prettier --write src/**/*.ts",
-    "prepublishOnly": "npm run build && npm test",
-    "clean": "rm -rf dist"
+    "prepublishOnly": "npm run build && npm run test:unit",
+    "clean": "rm -rf dist",
+    "test:unit": "jest --testPathIgnorePatterns=integration",
+    "prepare": "npm run build",
+    "prepack": "npm run clean && npm run build"
   },
   "keywords": [
     "zendesk",
     "api",
     "client",
     "typescript",
-    "rest"
+    "rest",
+    "rate-limiting",
+    "support",
+    "helpdesk",
+    "tickets",
+    "users",
+    "organizations"
   ],
-  "author": "",
+  "author": "Claude Assistant",
   "license": "MIT",
   "devDependencies": {
     "@types/jest": "^29.5.0",

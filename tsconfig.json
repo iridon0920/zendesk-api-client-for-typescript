@@ -10,7 +10,7 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "declaration": true,
-    "declarationDir": "./dist",
+    "declarationMap": true,
     "sourceMap": true,
     "removeComments": false,
     "noImplicitAny": true,
