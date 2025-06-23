@@ -18,7 +18,13 @@ import { ZendeskClient } from 'zendesk-api-client-typescript';
 const client = new ZendeskClient({
   subdomain: 'your-subdomain',
   email: 'your-email@example.com',
-  token: 'your-api-token'
+  token: 'your-api-token',
+  // Rate limit対応のオプション設定
+  httpOptions: {
+    maxRetries: 3,        // 429エラー時の最大リトライ回数
+    retryDelay: 1000,     // リトライ間隔（ミリ秒）
+    rateLimitBuffer: 10   // 残りリクエスト数がこの値以下で自動待機
+  }
 });
 ```
 
@@ -74,6 +80,34 @@ npm run lint
 # フォーマット
 npm run format
 ```
+
+## Rate Limit管理
+
+クライアントは自動的にZendeskのRate Limitに対応します：
+
+```typescript
+// Rate limit情報の取得
+const rateLimitInfo = client.getRateLimitInfo();
+if (rateLimitInfo) {
+  console.log(`残りリクエスト数: ${rateLimitInfo.remaining}/${rateLimitInfo.limit}`);
+  console.log(`リセット時刻: ${rateLimitInfo.resetTime}`);
+}
+
+// 手動でRate limitを回避したい場合
+await client.users.list();
+const info = client.getRateLimitInfo();
+if (info && info.remaining < 5) {
+  console.log('Rate limit近づいています。少し待機...');
+  await new Promise(resolve => setTimeout(resolve, 60000));
+}
+```
+
+### Rate Limit機能
+
+- ✅ **自動リトライ**: 429エラー時の指数バックオフリトライ
+- ✅ **プロアクティブ待機**: 残りリクエスト数が少なくなったら自動待機
+- ✅ **ヘッダー監視**: Zendeskのrate limitヘッダーを自動解析
+- ✅ **柔軟な設定**: リトライ回数、遅延時間、バッファサイズを調整可能
 
 ## ライセンス
 

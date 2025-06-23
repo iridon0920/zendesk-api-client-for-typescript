@@ -1,15 +1,19 @@
 // Ticket関連の型定義
 
+export type TicketType = 'problem' | 'incident' | 'question' | 'task';
+export type TicketPriority = 'urgent' | 'high' | 'normal' | 'low';
+export type TicketStatus = 'new' | 'open' | 'pending' | 'hold' | 'solved' | 'closed';
+
 export interface Ticket {
   id: number;
   url: string;
   external_id?: string;
-  type?: 'problem' | 'incident' | 'question' | 'task';
+  type?: TicketType;
   subject?: string;
   raw_subject?: string;
   description?: string;
-  priority?: 'urgent' | 'high' | 'normal' | 'low';
-  status: 'new' | 'open' | 'pending' | 'hold' | 'solved' | 'closed';
+  priority?: TicketPriority;
+  status: TicketStatus;
   recipient?: string;
   requester_id: number;
   submitter_id: number;
@@ -60,9 +64,9 @@ export interface CreateTicketRequest {
     email?: string;
     locale_id?: number;
   };
-  type?: Ticket['type'];
-  priority?: Ticket['priority'];
-  status?: Ticket['status'];
+  type?: TicketType;
+  priority?: TicketPriority;
+  status?: TicketStatus;
   assignee_id?: number;
   group_id?: number;
   tags?: string[];
@@ -82,9 +86,9 @@ export interface UpdateTicketRequest {
     author_id?: number;
     uploads?: string[];
   };
-  type?: Ticket['type'];
-  priority?: Ticket['priority'];
-  status?: Ticket['status'];
+  type?: TicketType;
+  priority?: TicketPriority;
+  status?: TicketStatus;
   assignee_id?: number;
   group_id?: number;
   tags?: string[];
