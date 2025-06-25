@@ -6,14 +6,6 @@
 
 TypeScript用のZendesk API クライアントライブラリです。型安全で使いやすいインターフェースを提供し、自動的なRate Limit管理機能を搭載しています。
 
-## ✨ 特徴
-
-- 🛡️ **Type-safe**: 完全なTypeScript型サポート
-- ⚡ **自動Rate Limit管理**: 429エラーを自動回避
-- 🔄 **自動リトライ**: 指数バックオフによる賢いリトライ機能
-- 📦 **軽量**: 最小限の依存関係
-- 🧪 **テスト済み**: 包括的なテストカバレッジ
-- 📚 **完全なAPI対応**: Users、Organizations、Tickets API
 
 ## インストール
 
@@ -249,10 +241,10 @@ const urgentTickets = await client.tickets.search(
 ### エラーハンドリング
 
 ```typescript
-import { 
-  ZendeskError, 
-  ZendeskRateLimitError, 
-  ZendeskAuthenticationError 
+import {
+  ZendeskError,
+  ZendeskRateLimitError,
+  ZendeskAuthenticationError
 } from 'zendesk-api-client-typescript';
 
 try {
@@ -267,16 +259,6 @@ try {
   }
 }
 ```
-
-## 🤝 コントリビューション
-
-プルリクエストや Issue の報告を歓迎します！
-
-1. このリポジトリをフォーク
-2. 機能ブランチを作成 (`git checkout -b feature/amazing-feature`)
-3. 変更をコミット (`git commit -m 'Add amazing feature'`)
-4. ブランチにプッシュ (`git push origin feature/amazing-feature`)
-5. プルリクエストを作成
 
 ## ライセンス
 

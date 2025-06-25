@@ -11,7 +11,6 @@ export type {
   UpdateTicketRequest,
   TicketsResponse,
   TicketResponse,
-  SearchResponse,
   CountResponse,
   CursorTicketsResponse,
   BulkCreateTicketsRequest,
@@ -44,6 +43,17 @@ export type {
   OrganizationMembershipsResponse,
   OrganizationMembershipResponse,
 } from './types/organization';
+export type {
+  SearchOptions,
+  BulkSearchOptions,
+  UnifiedSearchResponse,
+  TicketSearchResponse,
+  UserSearchResponse,
+  OrganizationSearchResponse,
+  ExportSearchResponse,
+  SearchProgress,
+  SearchError,
+} from './types/search';
 
 // エラークラス
 export {

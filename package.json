@@ -1,6 +1,6 @@
 {
   "name": "zendesk-api-client-typescript",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Type-safe Zendesk API client for TypeScript with automatic rate limiting",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

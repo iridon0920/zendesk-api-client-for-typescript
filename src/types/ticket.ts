@@ -122,12 +122,6 @@ export interface TicketResponse {
   ticket: Ticket;
 }
 
-export interface SearchResponse {
-  results: Ticket[];
-  count: number;
-  next_page?: string;
-  previous_page?: string;
-}
 
 export interface CountResponse {
   count: {

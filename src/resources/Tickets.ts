@@ -7,7 +7,6 @@ import {
   TicketResponse,
   CreateTicketRequest,
   UpdateTicketRequest,
-  SearchResponse,
   CountResponse,
   BulkCreateTicketsRequest,
   BulkUpdateTicketsRequest,
@@ -93,22 +92,6 @@ export class Tickets {
     );
   }
 
-  // チケット検索
-  // https://developer.zendesk.com/api-reference/ticketing/search/#search
-  async search(
-    query: string,
-    options: PaginationOptions = {}
-  ): Promise<SearchResponse> {
-    const params = {
-      query,
-      page: options.page || 1,
-      per_page: options.per_page || 100,
-      sort_by: options.sort_by || 'created_at',
-      sort_order: options.sort_order || 'desc',
-    };
-
-    return this.httpClient.get<SearchResponse>('/search.json', params);
-  }
 
   // チケット数取得
   // https://developer.zendesk.com/api-reference/ticketing/tickets/ticket_counts/#count-tickets

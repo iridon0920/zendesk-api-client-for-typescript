@@ -6,6 +6,7 @@ import { HttpClient, HttpClientOptions } from './HttpClient';
 import { Tickets } from '../resources/Tickets';
 import { Users } from '../resources/Users';
 import { Organizations } from '../resources/Organizations';
+import { Search } from '../resources/Search';
 
 export interface ZendeskClientConfig extends ZendeskConfig {
   httpOptions?: HttpClientOptions;
@@ -16,6 +17,7 @@ export class ZendeskClient {
   public readonly tickets: Tickets;
   public readonly users: Users;
   public readonly organizations: Organizations;
+  public readonly search: Search;
 
   constructor(config: ZendeskClientConfig) {
     const auth = new ApiTokenAuth(config);
@@ -25,6 +27,7 @@ export class ZendeskClient {
     this.tickets = new Tickets(this.httpClient);
     this.users = new Users(this.httpClient);
     this.organizations = new Organizations(this.httpClient);
+    this.search = new Search(this.httpClient);
   }
 
   getRateLimitInfo() {
