@@ -146,15 +146,17 @@ export interface JobStatusResponse {
   job_status: {
     id: string;
     url: string;
+    job_type?: string;
     total: number;
     progress: number;
-    status: 'queued' | 'working' | 'failed' | 'completed' | 'killed';
+    status: 'queued' | 'working' | 'failed' | 'completed';
     message?: string;
     results?: Array<{
       id?: number;
+      index?: number;
       title?: string;
-      action: string;
-      success: boolean;
+      action?: string;
+      success?: boolean;
       errors?: string;
     }>;
   };
