@@ -59,6 +59,13 @@ export interface BulkSearchOptions extends Omit<SearchOptions, 'page'> {
   max_results?: number; // 取得する最大結果数
 }
 
+// エクスポート検索用のオプション
+export interface ExportSearchOptions {
+  filter_type?: 'ticket' | 'user' | 'organization' | 'group';
+  page_size?: number; // 最大1000、推奨100
+  cursor?: string;
+}
+
 // エクスポート検索用のカーソルベースレスポンス
 export interface ExportSearchResponse<T> {
   results: T[];
@@ -67,6 +74,13 @@ export interface ExportSearchResponse<T> {
   next_page?: string;
   after_cursor?: string;
   after_url?: string;
+  links?: {
+    next?: string;
+  };
+  meta?: {
+    has_more?: boolean;
+    after_cursor?: string;
+  };
 }
 
 // リソースタイプ別の検索結果型

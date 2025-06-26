@@ -12,6 +12,7 @@ import {
   UserSearchResponse,
   OrganizationSearchResponse,
   ExportSearchResponse,
+  ExportSearchOptions,
   SearchProgress,
   SearchError,
 } from '../types/search';
@@ -63,11 +64,23 @@ export class Search {
   // https://developer.zendesk.com/api-reference/ticketing/ticket-management/search/#export-search-results
   async exportSearch<T>(
     query: string,
-    options: { filter?: Record<string, string> } = {}
+    options: ExportSearchOptions = {}
   ): Promise<ExportSearchResponse<T>> {
     const params: any = { query };
-    if (options.filter) {
-      Object.assign(params, options.filter);
+    
+    // filter[type]パラメータを設定（公式仕様に準拠）
+    if (options.filter_type) {
+      params['filter[type]'] = options.filter_type;
+    }
+    
+    // page[size]パラメータを設定（最大1000、推奨100）
+    if (options.page_size) {
+      params['page[size]'] = Math.min(options.page_size, 1000);
+    }
+    
+    // カーソルベースページネーション
+    if (options.cursor) {
+      params['page[after]'] = options.cursor;
     }
 
     return this.httpClient.get<ExportSearchResponse<T>>(
