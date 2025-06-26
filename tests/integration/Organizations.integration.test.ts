@@ -160,7 +160,7 @@ describe('Organizations Integration Tests', () => {
       await new Promise(resolve => setTimeout(resolve, 2000));
 
       // Search for the organization
-      const searchResponse = await client.organizations.search(uniqueName);
+      const searchResponse = await client.organizations.search({ name: uniqueName });
 
       expect(searchResponse).toBeDefined();
       expect(Array.isArray(searchResponse.organizations)).toBe(true);

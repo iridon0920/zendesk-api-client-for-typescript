@@ -139,17 +139,29 @@ export class Organizations {
 
   // 組織検索
   // https://developer.zendesk.com/api-reference/ticketing/organizations/organizations/#search-organizations
-  async search(
-    query: string,
-    options: PaginationOptions = {}
-  ): Promise<OrganizationsResponse> {
-    const params = {
-      query,
-      page: options.page || 1,
-      per_page: options.per_page || 100,
-      sort_by: options.sort_by || 'created_at',
-      sort_order: options.sort_order || 'desc',
-    };
+  async search(searchParams: {
+    name?: string;
+    external_id?: string;
+  }): Promise<OrganizationsResponse> {
+    if (!searchParams.name && !searchParams.external_id) {
+      throw new Error(
+        'Either name or external_id must be provided for organization search'
+      );
+    }
+
+    if (searchParams.name && searchParams.external_id) {
+      throw new Error(
+        'Cannot search by both name and external_id simultaneously'
+      );
+    }
+
+    const params: Record<string, string> = {};
+    if (searchParams.name) {
+      params.name = searchParams.name;
+    }
+    if (searchParams.external_id) {
+      params.external_id = searchParams.external_id;
+    }
 
     return this.httpClient.get<OrganizationsResponse>(
       '/organizations/search.json',

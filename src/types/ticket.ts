@@ -2,7 +2,13 @@
 
 export type TicketType = 'problem' | 'incident' | 'question' | 'task';
 export type TicketPriority = 'urgent' | 'high' | 'normal' | 'low';
-export type TicketStatus = 'new' | 'open' | 'pending' | 'hold' | 'solved' | 'closed';
+export type TicketStatus =
+  | 'new'
+  | 'open'
+  | 'pending'
+  | 'hold'
+  | 'solved'
+  | 'closed';
 
 export interface Ticket {
   id: number;
@@ -122,7 +128,6 @@ export interface TicketResponse {
   ticket: Ticket;
 }
 
-
 export interface CountResponse {
   count: {
     value: number;
@@ -142,6 +147,68 @@ export interface BulkUpdateTicketsRequest {
   >;
 }
 
+export interface Comment {
+  id: number;
+  type: 'Comment' | 'VoiceComment';
+  author_id: number;
+  body: string;
+  html_body: string;
+  plain_body?: string;
+  public: boolean;
+  attachments?: Array<{
+    id: number;
+    url: string;
+    file_name: string;
+    content_url: string;
+    content_type: string;
+    size: number;
+    width?: number;
+    height?: number;
+    inline?: boolean;
+    deleted?: boolean;
+    malware_access_override?: boolean;
+    malware_scan_result?: string;
+    thumbnails?: Array<{
+      id: number;
+      url: string;
+      file_name: string;
+      content_url: string;
+      content_type: string;
+      size: number;
+      width: number;
+      height: number;
+      inline: boolean;
+    }>;
+  }>;
+  audit_id?: number;
+  via?: {
+    channel: string;
+    source?: any;
+  };
+  created_at: string;
+  metadata?: {
+    system?: {
+      client: string;
+      ip_address: string;
+      location: string;
+      latitude: number;
+      longitude: number;
+    };
+    custom?: Record<string, any>;
+  };
+}
+
+export interface TicketCommentsResponse {
+  comments: Comment[];
+  next_page?: string;
+  previous_page?: string;
+  count: number;
+}
+
+export interface CommentResponse {
+  comment: Comment;
+}
+
 export interface JobStatusResponse {
   job_status: {
     id: string;
@@ -157,7 +224,51 @@ export interface JobStatusResponse {
       title?: string;
       action?: string;
       success?: boolean;
+      status?: string;
       errors?: string;
+      details?: string;
     }>;
   };
+}
+
+export interface ImportComment {
+  value?: string;
+  body?: string;
+  html_body?: string;
+  author_id?: number;
+  created_at?: string;
+  public?: boolean;
+}
+
+export interface ImportTicketRequest {
+  subject: string;
+  description?: string;
+  status?: TicketStatus;
+  priority?: TicketPriority;
+  type?: TicketType;
+  requester_id?: number;
+  submitter_id?: number;
+  assignee_id?: number;
+  organization_id?: number;
+  group_id?: number;
+  collaborator_ids?: number[];
+  tags?: string[];
+  external_id?: string;
+  created_at?: string;
+  updated_at?: string;
+  solved_at?: string;
+  custom_fields?: Array<{
+    id: number;
+    value: string | number | boolean | null;
+  }>;
+  comments?: ImportComment[];
+  archive_immediately?: boolean;
+}
+
+export interface ImportTicketResponse {
+  ticket: Ticket;
+}
+
+export interface BulkImportTicketsRequest {
+  tickets: ImportTicketRequest[];
 }

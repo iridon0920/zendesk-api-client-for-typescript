@@ -33,9 +33,9 @@ export class HttpClient {
       maxRetries: 3,
       retryDelay: 1000,
       rateLimitBuffer: 10,
-      ...options
+      ...options,
     };
-    
+
     this.axiosInstance = axios.create({
       baseURL: auth.getBaseUrl(),
       headers: auth.getAuthHeaders(),
@@ -54,7 +54,7 @@ export class HttpClient {
       this.rateLimitInfo = {
         limit: parseInt(limit, 10),
         remaining: parseInt(remaining, 10),
-        resetTime: new Date(parseInt(reset, 10) * 1000)
+        resetTime: new Date(parseInt(reset, 10) * 1000),
       };
     }
   }
@@ -65,17 +65,22 @@ export class HttpClient {
     // バッファ以下になったら、リセット時間まで待機
     if (this.rateLimitInfo.remaining <= this.options.rateLimitBuffer!) {
       const now = new Date();
-      const waitTime = Math.max(0, this.rateLimitInfo.resetTime.getTime() - now.getTime());
-      
+      const waitTime = Math.max(
+        0,
+        this.rateLimitInfo.resetTime.getTime() - now.getTime()
+      );
+
       if (waitTime > 0) {
-        console.log(`Rate limit buffer reached. Waiting ${waitTime}ms until reset...`);
+        console.log(
+          `Rate limit buffer reached. Waiting ${waitTime}ms until reset...`
+        );
         await this.sleep(waitTime);
       }
     }
   }
 
   private async sleep(ms: number): Promise<void> {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
   private async executeWithRetry<T>(
@@ -88,11 +93,19 @@ export class HttpClient {
       this.updateRateLimitInfo(response);
       return response.data;
     } catch (error) {
-      if (error instanceof ZendeskRateLimitError && retryCount < this.options.maxRetries!) {
-        const waitTime = error.retryAfter ? error.retryAfter * 1000 : 
-                        Math.pow(2, retryCount) * this.options.retryDelay!;
-        
-        console.log(`Rate limited. Retrying after ${waitTime}ms (attempt ${retryCount + 1}/${this.options.maxRetries})`);
+      if (
+        error instanceof ZendeskRateLimitError &&
+        retryCount < this.options.maxRetries!
+      ) {
+        const waitTime = error.retryAfter
+          ? error.retryAfter * 1000
+          : Math.pow(2, retryCount) * this.options.retryDelay!;
+
+        console.log(
+          `Rate limited. Retrying after ${waitTime}ms (attempt ${
+            retryCount + 1
+          }/${this.options.maxRetries})`
+        );
         await this.sleep(waitTime);
         return this.executeWithRetry(operation, retryCount + 1);
       }
@@ -146,7 +159,9 @@ export class HttpClient {
   }
 
   async get<T>(url: string, params?: Record<string, unknown>): Promise<T> {
-    return this.executeWithRetry(() => this.axiosInstance.get<T>(url, { params }));
+    return this.executeWithRetry(() =>
+      this.axiosInstance.get<T>(url, { params })
+    );
   }
 
   async post<T>(url: string, data?: unknown): Promise<T> {

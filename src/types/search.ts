@@ -54,7 +54,7 @@ export interface SearchOptions {
 export interface BulkSearchOptions extends Omit<SearchOptions, 'page'> {
   date_field?: 'created_at' | 'updated_at';
   start_date?: string; // ISO 8601形式
-  end_date?: string;   // ISO 8601形式
+  end_date?: string; // ISO 8601形式
   chunk_size?: number; // 日付範囲の分割サイズ（日数）
   max_results?: number; // 取得する最大結果数
 }
@@ -68,7 +68,6 @@ export interface ExportSearchResponse<T> {
   after_cursor?: string;
   after_url?: string;
 }
-
 
 // リソースタイプ別の検索結果型
 export type TicketSearchResponse = TypedSearchResponse<Ticket>;

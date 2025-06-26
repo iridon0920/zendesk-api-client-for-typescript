@@ -53,7 +53,10 @@ export class Search {
   ): Promise<OrganizationSearchResponse> {
     const orgQuery = this.addTypeFilter(options.query, 'organization');
     const params = this.buildSearchParams({ ...options, query: orgQuery });
-    return this.httpClient.get<OrganizationSearchResponse>('/search.json', params);
+    return this.httpClient.get<OrganizationSearchResponse>(
+      '/search.json',
+      params
+    );
   }
 
   // エクスポート検索（カーソルベース、大量データ用）
@@ -75,7 +78,9 @@ export class Search {
 
   // 大量データ取得用のAsync Iterator実装
   async *searchAll<T>(
-    searchFn: (options: SearchOptions) => Promise<{ results: T[]; next_page?: string }>,
+    searchFn: (
+      options: SearchOptions
+    ) => Promise<{ results: T[]; next_page?: string }>,
     initialOptions: SearchOptions
   ): AsyncGenerator<T[], void, unknown> {
     let currentPage = initialOptions.page || 1;
@@ -100,7 +105,7 @@ export class Search {
         }
 
         totalResults += response.results.length;
-        
+
         yield response.results;
 
         // ページング情報の更新
@@ -119,7 +124,6 @@ export class Search {
           };
           this.onProgress(progress);
         }
-
       } catch (error) {
         throw new SearchError(
           `Search failed on page ${currentPage}: ${error}`,
@@ -132,7 +136,9 @@ export class Search {
 
   // 日付範囲での分割検索（大量データ対応）
   async *searchByDateRange<T>(
-    searchFn: (options: SearchOptions) => Promise<{ results: T[]; count: number }>,
+    searchFn: (
+      options: SearchOptions
+    ) => Promise<{ results: T[]; count: number }>,
     options: BulkSearchOptions
   ): AsyncGenerator<T[], void, unknown> {
     const {
@@ -145,7 +151,10 @@ export class Search {
     } = options;
 
     if (!start_date || !end_date) {
-      throw new SearchError('start_date and end_date are required for date range search', query);
+      throw new SearchError(
+        'start_date and end_date are required for date range search',
+        query
+      );
     }
 
     const startDate = new Date(start_date);
@@ -156,13 +165,17 @@ export class Search {
     let totalProcessed = 0;
     const overallStart = new Date();
 
-    while (currentStart < endDate && (!max_results || totalProcessed < max_results)) {
-      const currentEnd = new Date(Math.min(
-        currentStart.getTime() + chunkSizeMs,
-        endDate.getTime()
-      ));
+    while (
+      currentStart < endDate &&
+      (!max_results || totalProcessed < max_results)
+    ) {
+      const currentEnd = new Date(
+        Math.min(currentStart.getTime() + chunkSizeMs, endDate.getTime())
+      );
 
-      const dateRangeQuery = `${query} ${date_field}>=${currentStart.toISOString().split('T')[0]} ${date_field}<${currentEnd.toISOString().split('T')[0]}`;
+      const dateRangeQuery = `${query} ${date_field}>=${
+        currentStart.toISOString().split('T')[0]
+      } ${date_field}<${currentEnd.toISOString().split('T')[0]}`;
 
       try {
         // この日付範囲での全結果を取得
@@ -184,15 +197,21 @@ export class Search {
           yield batch;
           totalProcessed += batch.length;
         }
-
       } catch (error) {
-        console.warn(`Failed to search date range ${currentStart.toISOString()} - ${currentEnd.toISOString()}: ${error}`);
+        console.warn(
+          `Failed to search date range ${currentStart.toISOString()} - ${currentEnd.toISOString()}: ${error}`
+        );
       }
 
       // 進捗情報の生成
       const progress: SearchProgress = {
-        total_pages: Math.ceil((endDate.getTime() - startDate.getTime()) / chunkSizeMs),
-        current_page: Math.ceil((currentStart.getTime() - startDate.getTime()) / chunkSizeMs) + 1,
+        total_pages: Math.ceil(
+          (endDate.getTime() - startDate.getTime()) / chunkSizeMs
+        ),
+        current_page:
+          Math.ceil(
+            (currentStart.getTime() - startDate.getTime()) / chunkSizeMs
+          ) + 1,
         processed_results: totalProcessed,
         estimated_total: totalProcessed,
         start_time: overallStart,
@@ -208,27 +227,24 @@ export class Search {
   }
 
   // チケットの大量検索
-  async *searchAllTickets(options: SearchOptions): AsyncGenerator<Ticket[], void, unknown> {
-    yield* this.searchAll(
-      (opts) => this.searchTickets(opts),
-      options
-    );
+  async *searchAllTickets(
+    options: SearchOptions
+  ): AsyncGenerator<Ticket[], void, unknown> {
+    yield* this.searchAll((opts) => this.searchTickets(opts), options);
   }
 
   // ユーザーの大量検索
-  async *searchAllUsers(options: SearchOptions): AsyncGenerator<User[], void, unknown> {
-    yield* this.searchAll(
-      (opts) => this.searchUsers(opts),
-      options
-    );
+  async *searchAllUsers(
+    options: SearchOptions
+  ): AsyncGenerator<User[], void, unknown> {
+    yield* this.searchAll((opts) => this.searchUsers(opts), options);
   }
 
   // 組織の大量検索
-  async *searchAllOrganizations(options: SearchOptions): AsyncGenerator<Organization[], void, unknown> {
-    yield* this.searchAll(
-      (opts) => this.searchOrganizations(opts),
-      options
-    );
+  async *searchAllOrganizations(
+    options: SearchOptions
+  ): AsyncGenerator<Organization[], void, unknown> {
+    yield* this.searchAll((opts) => this.searchOrganizations(opts), options);
   }
 
   // ユーティリティメソッド
@@ -254,7 +270,7 @@ export class Search {
   }
 
   private async sleep(ms: number): Promise<void> {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
   // プログレスコールバック（オプション）
