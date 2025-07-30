@@ -7,6 +7,8 @@ import { Tickets } from '../resources/Tickets';
 import { Users } from '../resources/Users';
 import { Organizations } from '../resources/Organizations';
 import { Search } from '../resources/Search';
+import { Triggers } from '../resources/triggers';
+import { TriggerCategories } from '../resources/triggerCategories';
 
 export interface ZendeskClientConfig extends ZendeskConfig {
   httpOptions?: HttpClientOptions;
@@ -18,6 +20,8 @@ export class ZendeskClient {
   public readonly users: Users;
   public readonly organizations: Organizations;
   public readonly search: Search;
+  public readonly triggers: Triggers;
+  public readonly triggerCategories: TriggerCategories;
 
   constructor(config: ZendeskClientConfig) {
     const auth = new ApiTokenAuth(config);
@@ -28,6 +32,8 @@ export class ZendeskClient {
     this.users = new Users(this.httpClient);
     this.organizations = new Organizations(this.httpClient);
     this.search = new Search(this.httpClient);
+    this.triggers = new Triggers(this.httpClient);
+    this.triggerCategories = new TriggerCategories(this.httpClient);
   }
 
   getRateLimitInfo() {

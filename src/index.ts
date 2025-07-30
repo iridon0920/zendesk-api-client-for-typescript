@@ -54,6 +54,34 @@ export type {
   SearchProgress,
   SearchError,
 } from './types/search';
+export type {
+  Trigger,
+  CreateTriggerRequest,
+  UpdateTriggerRequest,
+  TriggerResponse,
+  TriggersResponse,
+  TriggerSearchParams,
+  TriggerReorderRequest,
+  UpdateManyTriggersRequest,
+  DestroyManyTriggersRequest,
+  TriggerDefinitionsResponse,
+  TriggerRevisionsResponse,
+  TriggerRevisionResponse,
+  TriggerAction,
+  TriggerConditions,
+  TriggerCondition,
+  TriggerDefinition,
+  TriggerRevision,
+} from './types/triggers';
+export type {
+  TriggerCategory,
+  CreateTriggerCategoryRequest,
+  UpdateTriggerCategoryRequest,
+  TriggerCategoryResponse,
+  TriggerCategoriesResponse,
+  TriggerCategoryBatchJobRequest,
+  TriggerCategoryJobResponse,
+} from './types/triggerCategories';
 
 // エラークラス
 export {
@@ -65,3 +93,7 @@ export {
 // 認証ハンドラー
 export { ApiTokenAuth } from './auth/ApiTokenAuth';
 export type { AuthHandler } from './auth/ApiTokenAuth';
+
+// リソースクラス
+export { Triggers } from './resources/triggers';
+export { TriggerCategories } from './resources/triggerCategories';
