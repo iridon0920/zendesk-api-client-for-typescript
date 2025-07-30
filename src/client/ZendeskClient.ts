@@ -9,6 +9,9 @@ import { Organizations } from '../resources/Organizations';
 import { Search } from '../resources/Search';
 import { Triggers } from '../resources/triggers';
 import { TriggerCategories } from '../resources/triggerCategories';
+import { Views } from '../resources/views';
+import { Macros } from '../resources/macros';
+import { Automations } from '../resources/automations';
 
 export interface ZendeskClientConfig extends ZendeskConfig {
   httpOptions?: HttpClientOptions;
@@ -22,6 +25,9 @@ export class ZendeskClient {
   public readonly search: Search;
   public readonly triggers: Triggers;
   public readonly triggerCategories: TriggerCategories;
+  public readonly views: Views;
+  public readonly macros: Macros;
+  public readonly automations: Automations;
 
   constructor(config: ZendeskClientConfig) {
     const auth = new ApiTokenAuth(config);
@@ -34,6 +40,9 @@ export class ZendeskClient {
     this.search = new Search(this.httpClient);
     this.triggers = new Triggers(this.httpClient);
     this.triggerCategories = new TriggerCategories(this.httpClient);
+    this.views = new Views(this.httpClient);
+    this.macros = new Macros(this.httpClient);
+    this.automations = new Automations(this.httpClient);
   }
 
   getRateLimitInfo() {

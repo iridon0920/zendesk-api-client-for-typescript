@@ -82,6 +82,55 @@ export type {
   TriggerCategoryBatchJobRequest,
   TriggerCategoryJobResponse,
 } from './types/triggerCategories';
+export type {
+  View,
+  CreateViewRequest,
+  UpdateViewRequest,
+  ViewResponse,
+  ViewsResponse,
+  ViewCountResponse,
+  ViewExecuteResponse,
+  ViewTicketsResponse,
+  ViewCondition,
+  ViewConditions,
+  ViewExecution,
+  ViewColumn,
+  ViewGroup,
+  ViewSort,
+  ViewRestriction,
+  ViewRow,
+} from './types/views';
+export type {
+  Macro,
+  CreateMacroRequest,
+  UpdateMacroRequest,
+  MacroResponse,
+  MacrosResponse,
+  MacroSearchParams,
+  UpdateManyMacrosRequest,
+  DestroyManyMacrosRequest,
+  MacroAction,
+  MacroRestriction,
+  MacroCategory,
+  MacroCategoriesResponse,
+  MacroActionDefinition,
+  MacroActionsResponse,
+  MacroApplyRequest,
+  MacroApplyResponse,
+} from './types/macros';
+export type {
+  Automation,
+  CreateAutomationRequest,
+  UpdateAutomationRequest,
+  AutomationResponse,
+  AutomationsResponse,
+  AutomationSearchParams,
+  UpdateManyAutomationsRequest,
+  DestroyManyAutomationsRequest,
+  AutomationAction,
+  AutomationConditions,
+  AutomationCondition,
+} from './types/automations';
 
 // エラークラス
 export {
@@ -97,3 +146,6 @@ export type { AuthHandler } from './auth/ApiTokenAuth';
 // リソースクラス
 export { Triggers } from './resources/triggers';
 export { TriggerCategories } from './resources/triggerCategories';
+export { Views } from './resources/views';
+export { Macros } from './resources/macros';
+export { Automations } from './resources/automations';
